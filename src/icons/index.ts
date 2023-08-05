@@ -5,3 +5,5 @@ import "virtual:svg-icons-register"
 export function loadSvg(app: App) {
   app.component("SvgIcon", SvgIcon)
 }
+
+// 菜单图标颜色: #cdcdcd

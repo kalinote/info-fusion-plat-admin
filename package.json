@@ -1,15 +1,15 @@
 {
-  "name": "v3-admin-vite",
-  "version": "4.1.0",
-  "description": "一个免费开源的中后台管理系统基础解决方案，基于 Vue3、TypeScript、Element Plus、Pinia 和 Vite 等主流技术.",
+  "name": "info-fusion-plat-admin",
+  "version": "0.0.1",
+  "description": "数据融合平台中后端",
   "author": {
-    "name": "pany",
-    "email": "939630029@qq.com",
-    "url": "https://github.com/pany-ang"
+    "name": "kalinote",
+    "email": "contect@kalinote.top",
+    "url": "https://github.com/kalinote"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/un-pany/v3-admin-vite.git"
+    "url": "https://github.com/kalinote/info-fusion-plat-admin.git"
   },
   "scripts": {
     "dev": "vite",

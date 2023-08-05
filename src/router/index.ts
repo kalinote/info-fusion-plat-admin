@@ -260,6 +260,36 @@ export const asyncRoutes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: "/data_source",
+    component: Layouts,
+    name: "Table",
+    meta: {
+      title: "数据源",
+      svgIcon: "data_source",
+      alwaysShow: true // 将始终显示根菜单
+    },
+    children: [
+      {
+        path: "spider_source",
+        component: () => import("@/views/menu/menu1/menu1-2/menu1-2-1/index.vue"),
+        name: "spider_source",
+        meta: {
+          title: "爬虫",
+          roles: ["admin", "editor"] // 可以在根路由中设置角色
+        }
+      },
+      {
+        path: "Wiki",
+        component: () => import("@/views/menu/menu1/menu1-2/menu1-2-2/index.vue"),
+        name: "wiki_source",
+        meta: {
+          title: "Wiki",
+          roles: ["admin", "editor"] // 可以在根路由中设置角色
+        }
+      }
+    ]
+  },
+  {
     path: "/:pathMatch(.*)*", // Must put the 'ErrorPage' route at the end, 必须将 'ErrorPage' 路由放在最后
     redirect: "/404",
     name: "ErrorPage",

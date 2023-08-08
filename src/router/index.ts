@@ -118,80 +118,6 @@ export const constantRoutes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: "/menu",
-    component: Layouts,
-    redirect: "/menu/menu1",
-    name: "Menu",
-    meta: {
-      title: "多级菜单",
-      svgIcon: "menu"
-    },
-    children: [
-      {
-        path: "menu1",
-        component: () => import("@/views/menu/menu1/index.vue"),
-        redirect: "/menu/menu1/menu1-1",
-        name: "Menu1",
-        meta: {
-          title: "menu1"
-        },
-        children: [
-          {
-            path: "menu1-1",
-            component: () => import("@/views/menu/menu1/menu1-1/index.vue"),
-            name: "Menu1-1",
-            meta: {
-              title: "menu1-1"
-            }
-          },
-          {
-            path: "menu1-2",
-            component: () => import("@/views/menu/menu1/menu1-2/index.vue"),
-            redirect: "/menu/menu1/menu1-2/menu1-2-1",
-            name: "Menu1-2",
-            meta: {
-              title: "menu1-2"
-            },
-            children: [
-              {
-                path: "menu1-2-1",
-                component: () => import("@/views/menu/menu1/menu1-2/menu1-2-1/index.vue"),
-                name: "Menu1-2-1",
-                meta: {
-                  title: "menu1-2-1"
-                }
-              },
-              {
-                path: "menu1-2-2",
-                component: () => import("@/views/menu/menu1/menu1-2/menu1-2-2/index.vue"),
-                name: "Menu1-2-2",
-                meta: {
-                  title: "menu1-2-2"
-                }
-              }
-            ]
-          },
-          {
-            path: "menu1-3",
-            component: () => import("@/views/menu/menu1/menu1-3/index.vue"),
-            name: "Menu1-3",
-            meta: {
-              title: "menu1-3"
-            }
-          }
-        ]
-      },
-      {
-        path: "menu2",
-        component: () => import("@/views/menu/menu2/index.vue"),
-        name: "Menu2",
-        meta: {
-          title: "menu2"
-        }
-      }
-    ]
-  },
-  {
     path: "/hook-demo",
     component: Layouts,
     redirect: "/hook-demo/use-fetch-select",
@@ -216,6 +142,21 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "UseFullscreenLoading",
         meta: {
           title: "useFullscreenLoading"
+        }
+      }
+    ]
+  },
+  {
+    path: "/link",
+    component: Layouts,
+    children: [
+      {
+        path: "http://backend-service:8080/",
+        component: () => {},
+        name: "Link",
+        meta: {
+          title: "Crawlab",
+          svgIcon: "link"
         }
       }
     ]
@@ -262,7 +203,8 @@ export const asyncRoutes: RouteRecordRaw[] = [
   {
     path: "/data_source",
     component: Layouts,
-    name: "Table",
+    redirect: "/data_source/spiders_source",
+    name: "DataSource",
     meta: {
       title: "数据源",
       svgIcon: "data_source",
@@ -270,17 +212,17 @@ export const asyncRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: "spider_source",
-        component: () => import("@/views/menu/menu1/menu1-2/menu1-2-1/index.vue"),
-        name: "spider_source",
+        path: "spiders_source",
+        component: () => import("@/views/data-source/spiders/index.vue"),
+        name: "spiders_source",
         meta: {
           title: "爬虫",
           roles: ["admin", "editor"] // 可以在根路由中设置角色
         }
       },
       {
-        path: "Wiki",
-        component: () => import("@/views/menu/menu1/menu1-2/menu1-2-2/index.vue"),
+        path: "wiki_source",
+        component: () => import("@/views/data-source/wiki/index.vue"),
         name: "wiki_source",
         meta: {
           title: "Wiki",

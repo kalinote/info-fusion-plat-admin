@@ -1,5 +1,5 @@
 <template>
   <div class="app-container">
-    <el-card> menu 2 </el-card>
+    <el-card> 数据源wiki页面 </el-card>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
   <div class="top-bar">
     <el-row :gutter="12">
-      <el-col v-for="(info, index) in infoList" :key="index" :span="8">
+      <el-col v-for="(info, index) in InfoList" :key="index" :span="8">
         <el-card class="info-card element-border" shadow="hover">
           <div class="content">
             <div class="title">{{ info.title }}</div>
@@ -15,7 +15,9 @@
     <el-card class="high_weight_info_card">
       <div class="high_weight_info_title">24小时高权重信息</div>
       <hr />
-      <el-text v-for="item in HandledContent" :key="item" class="high_weight_info_text">{{ item }}<br /></el-text>
+      <el-text v-for="(item, index) in HandledContent" :key="index" class="high_weight_info_text"
+        >{{ item }}<br
+      /></el-text>
       <div class="high_weight_info_tags">
         <el-row>
           <el-col style="margin-top: 5px">
@@ -29,25 +31,52 @@
           </el-col>
         </el-row>
       </div>
+      <el-pagination
+        small
+        layout="prev, pager, next"
+        :page-size="1"
+        v-model:current-page="DailyHighWeightInfoPagination.CurrentPage"
+        v-model:total="DailyHighWeightInfoPagination.total"
+        @current-change="currentPageChange"
+      />
     </el-card>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, reactive } from "vue"
 import * as DashboardAPI from "@/api/dashboard"
 import type * as DashboardType from "@/api/dashboard/types/dashboard"
 
-const infoList = ref([] as { title: string; value: string | number }[])
+const InfoList = ref([] as { title: string; value: string | number }[])
+
+//#region 24小时高权重信息分页
 const HighWeightInfo = ref({} as DashboardType.getDailyHighWeightInfoData)
 const HandledContent = ref([] as string[])
+const HighWeightInfoResponse = ref({} as DashboardType.getDailyHighWeightInfoResponseData)
+const HighWeightInfoData = ref([] as DashboardType.getDailyHighWeightInfoData[])
+
+const DailyHighWeightInfoPagination = reactive({
+  total: 0,
+  CurrentPage: 1
+})
+
+const currentPageChange = (PageNumber: number) => {
+  HighWeightInfo.value.tags = HighWeightInfoResponse.value.data.list[PageNumber - 1].tags
+  HighWeightInfo.value.source = HighWeightInfoResponse.value.data.list[PageNumber - 1].source
+  HighWeightInfo.value.meta = HighWeightInfoResponse.value.data.list[PageNumber - 1].meta
+
+  HighWeightInfo.value.content = HighWeightInfoResponse.value.data.list[PageNumber - 1].content
+  HandledContent.value = HighWeightInfo.value.content.split("\n")
+}
+//#endregion
 
 onMounted(async () => {
   //#region 查询dashboard顶部数据
   const CollectedInfoResponse: DashboardType.getCollectedInfoSummaryResponseData =
     await DashboardAPI.getCollectedInfoSummaryDataApi()
   const CollectedInfodata = CollectedInfoResponse.data
-  infoList.value = [
+  InfoList.value = [
     {
       title: "总信息量",
       value: CollectedInfodata.totalInfo.toLocaleString()
@@ -64,15 +93,17 @@ onMounted(async () => {
   //#endregion
 
   //#region 查询24小时高权重信息
-  const HighWeightInfoResponse: DashboardType.getDailyHighWeightInfoResponseData =
-    await DashboardAPI.getDailyHighWeightInfoApi()
-  const HighWeightInfodata = HighWeightInfoResponse.data
+  HighWeightInfoResponse.value = await DashboardAPI.getDailyHighWeightInfoApi()
+  HighWeightInfoData.value = HighWeightInfoResponse.value.data.list
+  DailyHighWeightInfoPagination.total = HighWeightInfoData.value.length
 
-  HighWeightInfo.value.tags = HighWeightInfodata.list[0].tags
-  HighWeightInfo.value.source = HighWeightInfodata.list[0].source
-  HighWeightInfo.value.meta = HighWeightInfodata.list[0].meta
+  HighWeightInfo.value.tags = HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].tags
+  HighWeightInfo.value.source =
+    HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].source
+  HighWeightInfo.value.meta = HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].meta
 
-  HighWeightInfo.value.content = HighWeightInfodata.list[0].content
+  HighWeightInfo.value.content =
+    HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].content
   HandledContent.value = HighWeightInfo.value.content.split("\n")
   //#endregion
 })
@@ -126,7 +157,6 @@ onMounted(async () => {
 .high_weight_info_text {
   color: var(--el-text-color-primary);
   font-size: 18px; /* 调大字体大小 */
-  /* line-height: 75px; */
   margin: 20px;
   text-align: left;
 }

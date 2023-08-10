@@ -97,6 +97,7 @@ onMounted(async () => {
   HighWeightInfoData.value = HighWeightInfoResponse.value.data.list
   DailyHighWeightInfoPagination.total = HighWeightInfoData.value.length
 
+  // 获取完显示
   HighWeightInfo.value.tags = HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].tags
   HighWeightInfo.value.source =
     HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].source

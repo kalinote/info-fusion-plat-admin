@@ -58,7 +58,7 @@
                 /></el-aside>
                 <el-container>
                   <el-header height="10px">{{ node["title"] }}</el-header>
-                  <el-main>{{ node["value"] }}</el-main>
+                  <el-main>{{ node["value"].toLocaleString() }}</el-main>
                 </el-container>
               </el-container>
             </div></el-card
@@ -76,60 +76,9 @@ import type * as DashboardType from "@/api/dashboard/types/dashboard"
 
 const InfoList = ref([] as { title: string; value: string | number; tips: string }[])
 
-const nodeList = [
-  [
-    {
-      title: "在线节点",
-      color: { background: "#7ABBFF" },
-      icon: "node",
-      value: 1
-    },
-    {
-      title: "项目",
-      color: { background: "#7ABBFF" },
-      icon: "project",
-      value: 2
-    },
-    {
-      title: "爬虫",
-      color: { background: "#7ABBFF" },
-      icon: "spider",
-      value: 0
-    },
-    {
-      title: "定时任务",
-      color: { background: "#7ABBFF" },
-      icon: "timed-task",
-      value: 0
-    }
-  ],
-  [
-    {
-      title: "任务总数",
-      color: { background: "#7ABBFF" },
-      icon: "task-count",
-      value: 0
-    },
-    {
-      title: "错误任务",
-      value: 0,
-      color: { background: "#F87F7D" },
-      icon: "error"
-    },
-    {
-      title: "结果总数",
-      color: { background: "#B3E19D" },
-      icon: "result-count",
-      value: "3245235"
-    },
-    {
-      title: "正在运行",
-      color: { background: "#7ABBFF" },
-      icon: "running",
-      value: 0
-    }
-  ]
-]
+//#region 采集节点信息
+const nodeList = ref([] as DashboardType.getNodeInfoData[][])
+//#endregion
 
 //#region 24小时高权重信息分页
 const HighWeightInfo = ref({} as DashboardType.getDailyHighWeightInfoData)
@@ -190,6 +139,11 @@ onMounted(async () => {
   HighWeightInfo.value.content =
     HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].content
   HandledContent.value = HighWeightInfo.value.content.split("\n")
+  //#endregion
+
+  //#region 查询采集节点信息
+  const NodeInfoResponse: DashboardType.getNodeInfoResponseData = await DashboardAPI.getNodeInfoApi()
+  nodeList.value = NodeInfoResponse.data.list
   //#endregion
 })
 </script>

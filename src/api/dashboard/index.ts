@@ -16,3 +16,11 @@ export function getDailyHighWeightInfoApi() {
     method: "get"
   })
 }
+
+/** 获取采集节点信息 */
+export function getNodeInfoApi() {
+  return request<DashboardType.getNodeInfoResponseData>({
+    url: "dashboard/node_info",
+    method: "get"
+  })
+}

@@ -18,6 +18,23 @@ export interface getDailyHighWeightInfoData {
   meta: string[]
 }
 
+export interface getNodeInfoData {
+  /** 信息标题 */
+  title: string
+  /** 信息内容 */
+  value: number
+  /** icon */
+  icon: string
+  /** 背景颜色 */
+  color: {
+    background: string
+  }
+}
+
 export type getDailyHighWeightInfoResponseData = ApiResponseData<{
   list: getDailyHighWeightInfoData[]
+}>
+
+export type getNodeInfoResponseData = ApiResponseData<{
+  list: [getNodeInfoData[]]
 }>

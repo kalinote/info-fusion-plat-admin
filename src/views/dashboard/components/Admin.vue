@@ -50,11 +50,11 @@
       <h3 style="margin-left: 20px">采集节点信息</h3>
       <el-row :gutter="40" style="margin-bottom: 20px" v-for="(col, index) in nodeList" :key="index">
         <el-col :span="6" v-for="(node, index) in col" :key="index">
-          <el-card class="node-info-card" :body-style="{ background: '#7ABBFF' }">
+          <el-card class="node-info-card" :body-style="node['color']">
             <div class="node-info-content">
               <el-container>
                 <el-aside width="50px"
-                  ><svg-icon name="node" font-size="50px" class="icon" style="margin-top: 5px"
+                  ><svg-icon :name="node['icon']" font-size="50px" class="icon" style="margin-top: 5px"
                 /></el-aside>
                 <el-container>
                   <el-header height="10px">{{ node["title"] }}</el-header>
@@ -80,38 +80,52 @@ const nodeList = [
   [
     {
       title: "在线节点",
+      color: { background: "#7ABBFF" },
+      icon: "node",
       value: 1
     },
     {
       title: "项目",
+      color: { background: "#7ABBFF" },
+      icon: "project",
       value: 2
     },
     {
       title: "爬虫",
+      color: { background: "#7ABBFF" },
+      icon: "spider",
       value: 0
     },
     {
       title: "定时任务",
+      color: { background: "#7ABBFF" },
+      icon: "timed-task",
       value: 0
     }
   ],
   [
     {
       title: "任务总数",
+      color: { background: "#7ABBFF" },
+      icon: "task-count",
       value: 0
     },
     {
       title: "错误任务",
       value: 0,
-      color: "Red",
-      icon: "task"
+      color: { background: "#F87F7D" },
+      icon: "error"
     },
     {
       title: "结果总数",
-      value: 3245235
+      color: { background: "#B3E19D" },
+      icon: "result-count",
+      value: "3245235"
     },
     {
-      title: "用户",
+      title: "正在运行",
+      color: { background: "#7ABBFF" },
+      icon: "running",
       value: 0
     }
   ]

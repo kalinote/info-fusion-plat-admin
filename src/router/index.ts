@@ -207,7 +207,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     name: "DataSource",
     meta: {
       title: "数据源",
-      svgIcon: "data_source",
+      svgIcon: "data-source",
       alwaysShow: true // 将始终显示根菜单
     },
     children: [
@@ -246,7 +246,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     name: "token_management",
     meta: {
       title: "Token管理",
-      svgIcon: "token_management",
+      svgIcon: "token-management",
       roles: ["admin", "editor"] // 可以在根路由中设置角色
     }
   },

@@ -228,8 +228,27 @@ export const asyncRoutes: RouteRecordRaw[] = [
           title: "Wiki",
           roles: ["admin", "editor"] // 可以在根路由中设置角色
         }
+      },
+      {
+        path: "rss_source",
+        component: () => import("@/views/data-source/rss/index.vue"),
+        name: "rss_source",
+        meta: {
+          title: "RSS",
+          roles: ["admin", "editor"] // 可以在根路由中设置角色
+        }
       }
     ]
+  },
+  {
+    path: "/token_management",
+    component: Layouts,
+    name: "token_management",
+    meta: {
+      title: "Token管理",
+      svgIcon: "token_management",
+      roles: ["admin", "editor"] // 可以在根路由中设置角色
+    }
   },
   {
     path: "/:pathMatch(.*)*", // Must put the 'ErrorPage' route at the end, 必须将 'ErrorPage' 路由放在最后

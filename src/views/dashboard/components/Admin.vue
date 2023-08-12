@@ -48,38 +48,20 @@
     </div>
     <div style="margin: 20px">
       <h3 style="margin-left: 20px">采集节点信息</h3>
-
-      <el-row :gutter="40" style="margin-bottom: 20px">
-        <el-col :span="8">
-          <el-card class="node-info-card" :body-style="{ background: '#7ABBFF' }"
-            ><div class="node-info-content">Primary</div></el-card
-          >
-        </el-col>
-        <el-col :span="8">
-          <el-card class="node-info-card" :body-style="{ background: '#7ABBFF' }"
-            ><div class="node-info-content">Primary</div></el-card
-          >
-        </el-col>
-        <el-col :span="8">
-          <el-card class="node-info-card" :body-style="{ background: '#7ABBFF' }"
-            ><div class="node-info-content">Primary</div></el-card
-          >
-        </el-col>
-      </el-row>
-      <el-row :gutter="40" style="margin-bottom: 20px">
-        <el-col :span="8">
-          <el-card class="node-info-card" :body-style="{ background: '#7ABBFF' }"
-            ><div class="node-info-content">Primary</div></el-card
-          >
-        </el-col>
-        <el-col :span="8">
-          <el-card class="node-info-card" :body-style="{ background: '#7ABBFF' }"
-            ><div class="node-info-content">Primary</div></el-card
-          >
-        </el-col>
-        <el-col :span="8">
-          <el-card class="node-info-card" :body-style="{ background: '#7ABBFF' }"
-            ><div class="node-info-content">Primary</div></el-card
+      <el-row :gutter="40" style="margin-bottom: 20px" v-for="(col, index) in nodeList" :key="index">
+        <el-col :span="6" v-for="(node, index) in col" :key="index">
+          <el-card class="node-info-card" :body-style="{ background: '#7ABBFF' }">
+            <div class="node-info-content">
+              <el-container>
+                <el-aside width="50px"
+                  ><svg-icon name="node" font-size="50px" class="icon" style="margin-top: 5px"
+                /></el-aside>
+                <el-container>
+                  <el-header height="10px">{{ node["title"] }}</el-header>
+                  <el-main>{{ node["value"] }}</el-main>
+                </el-container>
+              </el-container>
+            </div></el-card
           >
         </el-col>
       </el-row>
@@ -93,6 +75,47 @@ import * as DashboardAPI from "@/api/dashboard"
 import type * as DashboardType from "@/api/dashboard/types/dashboard"
 
 const InfoList = ref([] as { title: string; value: string | number; tips: string }[])
+
+const nodeList = [
+  [
+    {
+      title: "在线节点",
+      value: 1
+    },
+    {
+      title: "项目",
+      value: 2
+    },
+    {
+      title: "爬虫",
+      value: 0
+    },
+    {
+      title: "定时任务",
+      value: 0
+    }
+  ],
+  [
+    {
+      title: "任务总数",
+      value: 0
+    },
+    {
+      title: "错误任务",
+      value: 0,
+      color: "Red",
+      icon: "task"
+    },
+    {
+      title: "结果总数",
+      value: 3245235
+    },
+    {
+      title: "用户",
+      value: 0
+    }
+  ]
+]
 
 //#region 24小时高权重信息分页
 const HighWeightInfo = ref({} as DashboardType.getDailyHighWeightInfoData)

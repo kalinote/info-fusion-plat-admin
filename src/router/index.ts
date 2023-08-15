@@ -73,21 +73,6 @@ export const constantRoutes: RouteRecordRaw[] = [
     ]
   },
   {
-    path: "/link",
-    component: Layouts,
-    children: [
-      {
-        path: "https://juejin.cn/post/7089377403717287972",
-        component: () => {},
-        name: "Link",
-        meta: {
-          title: "外链",
-          svgIcon: "link"
-        }
-      }
-    ]
-  },
-  {
     path: "/table",
     component: Layouts,
     redirect: "/table/element-plus",
@@ -142,21 +127,6 @@ export const constantRoutes: RouteRecordRaw[] = [
         name: "UseFullscreenLoading",
         meta: {
           title: "useFullscreenLoading"
-        }
-      }
-    ]
-  },
-  {
-    path: "/link",
-    component: Layouts,
-    children: [
-      {
-        path: "http://backend-service:8080/",
-        component: () => {},
-        name: "Link",
-        meta: {
-          title: "Crawlab",
-          svgIcon: "link"
         }
       }
     ]
@@ -249,6 +219,35 @@ export const asyncRoutes: RouteRecordRaw[] = [
       svgIcon: "token-management",
       roles: ["admin", "editor"] // 可以在根路由中设置角色
     }
+  },
+  {
+    path: "/link",
+    component: Layouts,
+    name: "external_link",
+    meta: {
+      title: "外部链接",
+      svgIcon: "link"
+    },
+    children: [
+      {
+        path: "http://192.168.238.128:8080/",
+        component: () => {},
+        name: "crawlab",
+        meta: {
+          title: "Crawlab",
+          svgIcon: "crawlab"
+        }
+      },
+      {
+        path: "http://192.168.238.128:5601/app/dev_tools/",
+        component: () => {},
+        name: "kibana",
+        meta: {
+          title: "Kibana",
+          svgIcon: "kibana"
+        }
+      }
+    ]
   },
   {
     path: "/:pathMatch(.*)*", // Must put the 'ErrorPage' route at the end, 必须将 'ErrorPage' 路由放在最后

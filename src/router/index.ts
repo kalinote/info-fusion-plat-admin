@@ -246,6 +246,15 @@ export const asyncRoutes: RouteRecordRaw[] = [
           title: "Kibana",
           svgIcon: "kibana"
         }
+      },
+      {
+        path: "http://192.168.238.128:8088/",
+        component: () => {},
+        name: "redpanda_console",
+        meta: {
+          title: "Redpanda Console",
+          svgIcon: "kafka"
+        }
       }
     ]
   },

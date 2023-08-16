@@ -14,25 +14,23 @@
         </el-col>
       </el-row>
     </div>
-    <div class="high_weight_info">
-      <el-card class="high_weight_info_card">
+    <div class="new_info">
+      <el-card class="new_info_card">
         <el-tooltip class="box-item" effect="dark" content="权重值计算方法：" placement="top">
-          <div class="high_weight_info_title">24小时高权重信息</div>
+          <div class="new_info_title">最新信息</div>
         </el-tooltip>
         <el-divider />
-        <el-text v-for="(item, index) in HandledContent" :key="index" class="high_weight_info_text"
-          >{{ item }}<br
-        /></el-text>
-        <div class="high_weight_info_tags">
+        <el-text v-for="(item, index) in HandledContent" :key="index" class="new_info_text">{{ item }}<br /></el-text>
+        <div class="new_info_tags">
           <el-row>
             <el-col style="margin-top: 5px">
-              <el-tag v-for="item in HighWeightInfo.tags" :key="item" class="mx-1">{{ item }}</el-tag>
+              <el-tag v-for="item in NewInfo.tags" :key="item" class="mx-1">{{ item }}</el-tag>
             </el-col>
             <el-col style="margin-top: 5px">
-              <el-tag type="warning" v-for="item in HighWeightInfo.source" :key="item" class="mx-1">{{ item }}</el-tag>
+              <el-tag type="warning" v-for="item in NewInfo.source" :key="item" class="mx-1">{{ item }}</el-tag>
             </el-col>
             <el-col style="margin-top: 5px">
-              <el-tag type="danger" v-for="item in HighWeightInfo.meta" :key="item" class="mx-1">{{ item }}</el-tag>
+              <el-tag type="danger" v-for="item in NewInfo.meta" :key="item" class="mx-1">{{ item }}</el-tag>
             </el-col>
           </el-row>
         </div>
@@ -40,8 +38,8 @@
           small
           layout="prev, pager, next"
           :page-size="1"
-          v-model:current-page="DailyHighWeightInfoPagination.CurrentPage"
-          v-model:total="DailyHighWeightInfoPagination.total"
+          v-model:current-page="DailyNewInfoPagination.CurrentPage"
+          v-model:total="DailyNewInfoPagination.total"
           @current-change="currentPageChange"
         />
       </el-card>
@@ -81,23 +79,23 @@ const nodeList = ref([] as DashboardType.getNodeInfoData[][])
 //#endregion
 
 //#region 24小时高权重信息分页
-const HighWeightInfo = ref({} as DashboardType.getDailyHighWeightInfoData)
+const NewInfo = ref({} as DashboardType.getDailyNewInfoData)
 const HandledContent = ref([] as string[])
-const HighWeightInfoResponse = ref({} as DashboardType.getDailyHighWeightInfoResponseData)
-const HighWeightInfoData = ref([] as DashboardType.getDailyHighWeightInfoData[])
+const NewInfoResponse = ref({} as DashboardType.getDailyNewInfoResponseData)
+const NewInfoData = ref([] as DashboardType.getDailyNewInfoData[])
 
-const DailyHighWeightInfoPagination = reactive({
+const DailyNewInfoPagination = reactive({
   total: 0,
   CurrentPage: 1
 })
 
 const currentPageChange = (PageNumber: number) => {
-  HighWeightInfo.value.tags = HighWeightInfoResponse.value.data.list[PageNumber - 1].tags
-  HighWeightInfo.value.source = HighWeightInfoResponse.value.data.list[PageNumber - 1].source
-  HighWeightInfo.value.meta = HighWeightInfoResponse.value.data.list[PageNumber - 1].meta
+  NewInfo.value.tags = NewInfoResponse.value.data.list[PageNumber - 1].tags
+  NewInfo.value.source = NewInfoResponse.value.data.list[PageNumber - 1].source
+  NewInfo.value.meta = NewInfoResponse.value.data.list[PageNumber - 1].meta
 
-  HighWeightInfo.value.content = HighWeightInfoResponse.value.data.list[PageNumber - 1].content
-  HandledContent.value = HighWeightInfo.value.content.split("\n")
+  NewInfo.value.content = NewInfoResponse.value.data.list[PageNumber - 1].content
+  HandledContent.value = NewInfo.value.content.split("\n")
 }
 //#endregion
 
@@ -126,19 +124,17 @@ onMounted(async () => {
   //#endregion
 
   //#region 查询24小时高权重信息
-  HighWeightInfoResponse.value = await DashboardAPI.getDailyHighWeightInfoApi()
-  HighWeightInfoData.value = HighWeightInfoResponse.value.data.list
-  DailyHighWeightInfoPagination.total = HighWeightInfoData.value.length
+  NewInfoResponse.value = await DashboardAPI.getDailyNewInfoApi()
+  NewInfoData.value = NewInfoResponse.value.data.list
+  DailyNewInfoPagination.total = NewInfoData.value.length
 
   // 获取完显示
-  HighWeightInfo.value.tags = HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].tags
-  HighWeightInfo.value.source =
-    HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].source
-  HighWeightInfo.value.meta = HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].meta
+  NewInfo.value.tags = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].tags
+  NewInfo.value.source = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].source
+  NewInfo.value.meta = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].meta
 
-  HighWeightInfo.value.content =
-    HighWeightInfoResponse.value.data.list[DailyHighWeightInfoPagination.CurrentPage - 1].content
-  HandledContent.value = HighWeightInfo.value.content.split("\n")
+  NewInfo.value.content = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].content
+  HandledContent.value = NewInfo.value.content.split("\n")
   //#endregion
 
   //#region 查询采集节点信息
@@ -181,11 +177,11 @@ onMounted(async () => {
   font-size: 25px; /* 调大字体大小 */
 }
 
-.high_weight_info {
+.new_info {
   padding: 20px;
 }
 
-.high_weight_info_title {
+.new_info_title {
   color: var(--el-text-color-regular);
   font-size: 25px; /* 调大字体大小 */
   font-weight: bold; /* 加粗字体 */
@@ -193,14 +189,14 @@ onMounted(async () => {
   text-align: center;
 }
 
-.high_weight_info_text {
+.new_info_text {
   color: var(--el-text-color-primary);
   font-size: 18px; /* 调大字体大小 */
   margin: 20px;
   text-align: left;
 }
 
-.high_weight_info_tags {
+.new_info_tags {
   margin: 20px;
 }
 

@@ -7,7 +7,7 @@ export type getCollectedInfoSummaryResponseData = ApiResponseData<{
   tags: string[]
 }>
 
-export interface getDailyHighWeightInfoData {
+export interface getDailyNewInfoData {
   /** 信息内容 */
   content: string
   /** 信息tags */
@@ -31,8 +31,8 @@ export interface getNodeInfoData {
   }
 }
 
-export type getDailyHighWeightInfoResponseData = ApiResponseData<{
-  list: getDailyHighWeightInfoData[]
+export type getDailyNewInfoResponseData = ApiResponseData<{
+  list: getDailyNewInfoData[]
 }>
 
 export type getNodeInfoResponseData = ApiResponseData<{

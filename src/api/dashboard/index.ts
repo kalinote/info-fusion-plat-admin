@@ -10,9 +10,9 @@ export function getCollectedInfoSummaryDataApi() {
 }
 
 /** 获取24小时高权重信息 */
-export function getDailyHighWeightInfoApi() {
-  return request<DashboardType.getDailyHighWeightInfoResponseData>({
-    url: "dashboard/daily_high_weight_info",
+export function getDailyNewInfoApi() {
+  return request<DashboardType.getDailyNewInfoResponseData>({
+    url: "dashboard/daily_new_info",
     method: "get"
   })
 }

@@ -20,7 +20,7 @@
           <div class="new_info_title">最新信息</div>
         </el-tooltip>
         <el-divider />
-        <el-text v-for="(item, index) in HandledContent" :key="index" class="new_info_text">{{ item }}<br /></el-text>
+        <div class="new_info_text" v-html="NewInfo.content" />
         <div class="new_info_tags">
           <el-row>
             <el-col style="margin-top: 5px">
@@ -80,7 +80,6 @@ const nodeList = ref([] as DashboardType.getNodeInfoData[][])
 
 //#region 24小时高权重信息分页
 const NewInfo = ref({} as DashboardType.getDailyNewInfoData)
-const HandledContent = ref([] as string[])
 const NewInfoResponse = ref({} as DashboardType.getDailyNewInfoResponseData)
 const NewInfoData = ref([] as DashboardType.getDailyNewInfoData[])
 
@@ -95,7 +94,6 @@ const currentPageChange = (PageNumber: number) => {
   NewInfo.value.meta = NewInfoResponse.value.data.list[PageNumber - 1].meta
 
   NewInfo.value.content = NewInfoResponse.value.data.list[PageNumber - 1].content
-  HandledContent.value = NewInfo.value.content.split("\n")
 }
 //#endregion
 
@@ -134,7 +132,6 @@ onMounted(async () => {
   NewInfo.value.meta = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].meta
 
   NewInfo.value.content = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].content
-  HandledContent.value = NewInfo.value.content.split("\n")
   //#endregion
 
   //#region 查询采集节点信息

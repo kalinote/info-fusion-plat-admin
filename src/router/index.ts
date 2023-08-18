@@ -213,12 +213,19 @@ export const asyncRoutes: RouteRecordRaw[] = [
   {
     path: "/token_management",
     component: Layouts,
-    name: "token_management",
-    meta: {
-      title: "Token管理",
-      svgIcon: "token-management",
-      roles: ["admin"] // 可以在根路由中设置角色
-    }
+    redirect: "/token_management/index",
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/token-management/index.vue"),
+        name: "token_management",
+        meta: {
+          title: "Token管理",
+          svgIcon: "token-management",
+          roles: ["admin"] // 可以在根路由中设置角色
+        }
+      }
+    ]
   },
   {
     path: "/docker",

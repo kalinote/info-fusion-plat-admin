@@ -217,7 +217,17 @@ export const asyncRoutes: RouteRecordRaw[] = [
     meta: {
       title: "Token管理",
       svgIcon: "token-management",
-      roles: ["admin", "editor"] // 可以在根路由中设置角色
+      roles: ["admin"] // 可以在根路由中设置角色
+    }
+  },
+  {
+    path: "/docker",
+    component: Layouts,
+    name: "docker",
+    meta: {
+      title: "Docker",
+      svgIcon: "docker",
+      roles: ["admin"] // 可以在根路由中设置角色
     }
   },
   {

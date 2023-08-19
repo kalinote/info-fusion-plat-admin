@@ -17,6 +17,13 @@ export interface PlatformTokenData {
   status: boolean
 }
 
+export interface GetPlatformTokenRequestData {
+  /** 环境变量名 */
+  env_var_name?: string
+  /** 所属平台 */
+  platform?: string
+}
+
 export type GetPlatformTokenResponseData = ApiResponseData<{
   list: PlatformTokenData[]
   total: number

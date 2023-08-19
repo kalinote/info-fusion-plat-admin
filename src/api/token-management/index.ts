@@ -11,9 +11,10 @@ export function createPlatformTokenDataApi(data: PlatformToken.PlatformTokenData
 }
 
 /** 查询 */
-export function getPlatformTokenDataApi() {
+export function getPlatformTokenDataApi(params: PlatformToken.GetPlatformTokenRequestData) {
   return request<PlatformToken.GetPlatformTokenResponseData>({
     url: "token_management",
-    method: "get"
+    method: "get",
+    params
   })
 }

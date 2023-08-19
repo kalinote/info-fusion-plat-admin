@@ -176,7 +176,10 @@ const searchData = reactive({
 
 const getPlatformTokenData = () => {
   loading.value = true
-  getPlatformTokenDataApi()
+  getPlatformTokenDataApi({
+    env_var_name: searchData.env_var_name || undefined,
+    platform: searchData.platform || undefined
+  })
     .then((res) => {
       tableData.value = res.data.list
     })

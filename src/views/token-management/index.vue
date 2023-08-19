@@ -1,16 +1,16 @@
 <template>
   <div class="app-container">
     <el-card shadow="never" class="search-wrapper">
-      <el-form ref="searchFormRef" :inline="true">
+      <el-form ref="searchFormRef" :inline="true" :model="searchData">
         <el-form-item prop="environment_variable_name" label="环境变量名">
-          <el-input placeholder="请输入" />
+          <el-input v-model="searchData.env_var_name" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="platform_name" label="平台名称">
-          <el-input placeholder="请输入" />
+          <el-input v-model="searchData.platform" placeholder="请输入" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" :icon="Search" @click="console.log('点击查询')">查询</el-button>
-          <el-button :icon="Refresh" @click="console.log('点击重置')">重置</el-button>
+          <el-button type="primary" :icon="Search" @click="handleSearch">查询</el-button>
+          <el-button :icon="Refresh" @click="resetSearch">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -25,7 +25,7 @@
             <el-button type="primary" :icon="Download" circle />
           </el-tooltip>
           <el-tooltip content="刷新当前页">
-            <el-button type="primary" :icon="RefreshRight" circle @click="console.log('点击刷新')" />
+            <el-button type="primary" :icon="RefreshRight" circle @click="getPlatformTokenData" />
           </el-tooltip>
         </div>
       </div>
@@ -42,8 +42,16 @@
               <el-tag v-else type="danger" effect="plain">禁用</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" align="center" />
-          <el-table-column prop="updataTime" label="更新时间" align="center" />
+          <el-table-column prop="createTime" label="创建时间" align="center">
+            <template #default="scope">
+              {{ formatTime(scope.row.createTime) }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="updataTime" label="更新时间" align="center">
+            <template #default="scope">
+              {{ formatTime(scope.row.updataTime) }}
+            </template>
+          </el-table-column>
           <el-table-column prop="status" label="Token状态" align="center">
             <template #default="scope">
               <el-tag v-if="scope.row.status" type="success" effect="plain">正常</el-tag>
@@ -94,25 +102,19 @@
 import dayjs from "dayjs"
 import { Search, Refresh, Download, RefreshRight, CirclePlus, Delete, Check } from "@element-plus/icons-vue"
 import { type FormInstance, type FormRules, ElMessage } from "element-plus"
-import { reactive, ref } from "vue"
+import { reactive, ref, onMounted } from "vue"
 import { createPlatformTokenDataApi } from "@/api/token-management"
+import { type PlatformTokenData } from "@/api/token-management/types/token-management"
+import { getPlatformTokenDataApi } from "@/api/token-management"
 
-interface TableItem {
-  env_var_name: string
-  value: string
-  platform: string
-  description: string
-  is_using: boolean
-  createTime: string
-  updataTime: string
-  status: boolean
-}
-
-const tableData: TableItem[] = []
-
+const loading = ref<boolean>(false)
 const formatTime = (timestamp: number) => {
   return dayjs(timestamp).format("YYYY-MM-DD HH:mm:ss")
 }
+
+//#region 修改token
+const currentUpdateId = ref<undefined | string>(undefined)
+//#endregion
 
 //#region 新增token
 const dialogVisible = ref<boolean>(false)
@@ -141,7 +143,7 @@ const handleCreate = () => {
         createPlatformTokenDataApi(formData)
           .then(() => {
             ElMessage.success("新增成功")
-            // getTableData()
+            getPlatformTokenData()
           })
           .finally(() => {
             dialogVisible.value = false
@@ -165,60 +167,53 @@ const resetForm = () => {
 //#endregion
 
 //#region 查询所有token
+const tableData = ref<PlatformTokenData[]>([])
+const searchFormRef = ref<FormInstance | null>(null)
+const searchData = reactive({
+  env_var_name: "",
+  platform: ""
+})
 
-//#endregion
+const getPlatformTokenData = () => {
+  loading.value = true
+  getPlatformTokenDataApi()
+    .then((res) => {
+      tableData.value = res.data.list
+    })
+    .catch(() => {
+      tableData.value = []
+    })
+    .finally(() => {
+      loading.value = false
+    })
+}
 
-//#region 修改token
-const currentUpdateId = ref<undefined | string>(undefined)
+const handleSearch = () => {
+  getPlatformTokenData()
+}
+const resetSearch = () => {
+  searchFormRef.value?.resetFields()
+  handleSearch()
+}
 //#endregion
 
 //#region 行操作
 /** 修改数据 */
-function handleUpdate(row: TableItem): void {
+function handleUpdate(row: PlatformTokenData): void {
   console.log(row)
 }
 
 /** 删除数据 */
-function handleDelete(row: TableItem): void {
+function handleDelete(row: PlatformTokenData): void {
   console.log(row)
 }
 //#endregion
 
-// 生成随机字符串
-function getRandomString(length: number): string {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-  let result = ""
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length))
-  }
-  return result
-}
-
-// 随机生成一个布尔值
-function getRandomBoolean(): boolean {
-  return Math.random() < 0.5
-}
-
-// 随机生成日期
-function getRandomDate(): string {
-  const start = new Date(2020, 0, 1)
-  const end = new Date()
-  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime())).toLocaleString()
-}
-
-// 生成随机数据
-for (let i = 0; i < 10; i++) {
-  tableData.push({
-    env_var_name: getRandomString(8),
-    value: getRandomString(6),
-    platform: getRandomString(10),
-    description: `${getRandomString(8)}@example.com`,
-    is_using: getRandomBoolean(),
-    createTime: getRandomDate(),
-    updataTime: formatTime(Date.now()),
-    status: getRandomBoolean()
-  })
-}
+//#region 页面加载工作
+onMounted(() => {
+  getPlatformTokenData()
+})
+//#endregion
 </script>
 
 <style lang="scss" scoped>

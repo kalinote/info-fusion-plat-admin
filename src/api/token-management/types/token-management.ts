@@ -1,4 +1,4 @@
-export interface CreatePlatformTokenRequestData {
+export interface PlatformTokenData {
   /** 环境变量名 */
   env_var_name: string
   /** 环境变量值 */
@@ -16,3 +16,8 @@ export interface CreatePlatformTokenRequestData {
   /** token状态 */
   status: boolean
 }
+
+export type GetPlatformTokenResponseData = ApiResponseData<{
+  list: PlatformTokenData[]
+  total: number
+}>

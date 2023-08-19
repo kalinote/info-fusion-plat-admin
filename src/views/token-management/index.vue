@@ -69,7 +69,7 @@
       width="30%"
     >
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
-        <el-form-item prop="env_var_name" label="用户名">
+        <el-form-item prop="env_var_name" label="环境变量名">
           <el-input v-model="formData.env_var_name" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="value" label="值" v-if="currentUpdateId === undefined">
@@ -160,7 +160,12 @@ const resetForm = () => {
   formData.env_var_name = ""
   formData.value = ""
   formData.platform = ""
+  formData.description = ""
 }
+//#endregion
+
+//#region 查询所有token
+
 //#endregion
 
 //#region 修改token

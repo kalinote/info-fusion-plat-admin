@@ -59,7 +59,7 @@
         </el-table>
       </div>
       <div class="deploy-wrapper">
-        <el-button type="primary" :icon="Check" @click="console.log('点击部署')">部署</el-button>
+        <el-button type="primary" :icon="Check" @click="console.log('点击部署')">RssHub部署</el-button>
       </div>
     </el-card>
     <el-dialog
@@ -93,8 +93,9 @@
 <script lang="ts" setup>
 import dayjs from "dayjs"
 import { Search, Refresh, Download, RefreshRight, CirclePlus, Delete, Check } from "@element-plus/icons-vue"
-import { type FormInstance, type FormRules } from "element-plus"
+import { type FormInstance, type FormRules, ElMessage } from "element-plus"
 import { reactive, ref } from "vue"
+import { createPlatformTokenDataApi } from "@/api/token-management"
 
 interface TableItem {
   env_var_name: string
@@ -136,8 +137,18 @@ const formRules: FormRules = reactive({
 const handleCreate = () => {
   formRef.value?.validate((valid: boolean, fields) => {
     if (valid) {
-      console.log(formData)
-      dialogVisible.value = false
+      if (currentUpdateId.value === undefined) {
+        createPlatformTokenDataApi(formData)
+          .then(() => {
+            ElMessage.success("新增成功")
+            // getTableData()
+          })
+          .finally(() => {
+            dialogVisible.value = false
+          })
+      } else {
+        // 进行修改操作
+      }
     } else {
       console.error("表单校验不通过", fields)
     }

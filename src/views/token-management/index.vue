@@ -38,8 +38,11 @@
           <el-table-column prop="description" label="描述" align="center" />
           <el-table-column prop="is_using" label="使用状态" align="center">
             <template #default="scope">
-              <el-tag v-if="scope.row.is_using" type="success" effect="plain">启用</el-tag>
-              <el-tag v-else type="danger" effect="plain">禁用</el-tag>
+              <el-switch
+                v-model="scope.row.is_using"
+                class="ml-2"
+                style="--el-switch-on-color: #67c23a; --el-switch-off-color: #f56c6c"
+              />
             </template>
           </el-table-column>
           <el-table-column prop="createTime" label="创建时间" align="center">
@@ -72,7 +75,7 @@
     </el-card>
     <el-dialog
       v-model="dialogVisible"
-      :title="currentUpdateId === undefined ? '新增用户' : '修改用户'"
+      :title="currentUpdateId === undefined ? '新增环境变量' : '修改环境变量'"
       @close="resetForm"
       width="30%"
     >

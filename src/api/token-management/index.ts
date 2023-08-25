@@ -18,3 +18,12 @@ export function getPlatformTokenDataApi(params: PlatformToken.GetPlatformTokenRe
     params
   })
 }
+
+/** 修改 */
+export function updatePlatformTokenDataApi(data: PlatformToken.PlatformTokenData) {
+  return request({
+    url: "token_management",
+    method: "put",
+    data
+  })
+}

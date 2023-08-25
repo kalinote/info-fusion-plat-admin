@@ -39,20 +39,21 @@
           <el-table-column prop="is_using" label="使用状态" align="center">
             <template #default="scope">
               <el-switch
-                v-model="scope.row.is_using"
                 class="ml-2"
                 style="--el-switch-on-color: #67c23a; --el-switch-off-color: #f56c6c"
+                v-model="scope.row.is_using"
+                @change="handleSwitchChange(scope.row)"
               />
             </template>
           </el-table-column>
-          <el-table-column prop="createTime" label="创建时间" align="center">
+          <el-table-column prop="create_time" label="创建时间" align="center">
             <template #default="scope">
-              {{ formatTime(scope.row.createTime) }}
+              {{ formatTime(scope.row.create_time) }}
             </template>
           </el-table-column>
-          <el-table-column prop="updataTime" label="更新时间" align="center">
+          <el-table-column prop="update_time" label="更新时间" align="center">
             <template #default="scope">
-              {{ formatTime(scope.row.updataTime) }}
+              {{ formatTime(scope.row.update_time) }}
             </template>
           </el-table-column>
           <el-table-column prop="status" label="Token状态" align="center">
@@ -109,6 +110,7 @@ import { reactive, ref, onMounted } from "vue"
 import { createPlatformTokenDataApi } from "@/api/token-management"
 import { type PlatformTokenData } from "@/api/token-management/types/token-management"
 import { getPlatformTokenDataApi } from "@/api/token-management"
+import { updatePlatformTokenDataApi } from "@/api/token-management"
 
 const loading = ref<boolean>(false)
 const formatTime = (timestamp: number) => {
@@ -117,6 +119,13 @@ const formatTime = (timestamp: number) => {
 
 //#region 修改token
 const currentUpdateId = ref<undefined | string>(undefined)
+
+const handleSwitchChange = (row: PlatformTokenData) => {
+  updatePlatformTokenDataApi(row).then(() => {
+    ElMessage.success("修改成功")
+    getPlatformTokenData()
+  })
+}
 //#endregion
 
 //#region 新增token

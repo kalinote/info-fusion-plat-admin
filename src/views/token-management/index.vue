@@ -82,15 +82,15 @@
     >
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
         <el-form-item prop="env_var_name" label="环境变量名">
-          <el-input v-model="formData.env_var_name" placeholder="请输入" />
+          <el-input v-model="formData.env_var_name" placeholder="请输入" :disabled="currentUpdateId !== undefined" />
         </el-form-item>
-        <el-form-item prop="value" label="值" v-if="currentUpdateId === undefined">
+        <el-form-item prop="value" label="值">
           <el-input v-model="formData.value" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="platform" label="平台" v-if="currentUpdateId === undefined">
+        <el-form-item prop="platform" label="平台">
           <el-input v-model="formData.platform" placeholder="请输入" />
         </el-form-item>
-        <el-form-item prop="description" label="描述" v-if="currentUpdateId === undefined">
+        <el-form-item prop="description" label="描述">
           <el-input v-model="formData.description" placeholder="请输入" />
         </el-form-item>
       </el-form>
@@ -117,21 +117,11 @@ const formatTime = (timestamp: number) => {
   return dayjs(timestamp).format("YYYY-MM-DD HH:mm:ss")
 }
 
-//#region 修改token
-const currentUpdateId = ref<undefined | string>(undefined)
-
-const handleSwitchChange = (row: PlatformTokenData) => {
-  updatePlatformTokenDataApi(row).then(() => {
-    ElMessage.success("修改成功")
-    getPlatformTokenData()
-  })
-}
-//#endregion
-
 //#region 新增token
 const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = reactive({
+  id: -1,
   env_var_name: "",
   value: "",
   platform: "",
@@ -162,6 +152,14 @@ const handleCreate = () => {
           })
       } else {
         // 进行修改操作
+        updatePlatformTokenDataApi(formData)
+          .then(() => {
+            ElMessage.success("修改成功")
+            getPlatformTokenData()
+          })
+          .finally(() => {
+            dialogVisible.value = false
+          })
       }
     } else {
       console.error("表单校验不通过", fields)
@@ -170,11 +168,14 @@ const handleCreate = () => {
 }
 
 const resetForm = () => {
-  currentUpdateId.value = undefined
-  formData.env_var_name = ""
-  formData.value = ""
-  formData.platform = ""
-  formData.description = ""
+  setTimeout(() => {
+    currentUpdateId.value = undefined
+    formData.id = -1
+    formData.env_var_name = ""
+    formData.value = ""
+    formData.platform = ""
+    formData.description = ""
+  }, 200) /** 延迟0.2秒执行，免得窗口还没消失，设置了currentUpdateId.value = undefined导致标题和内容发生变化 */
 }
 //#endregion
 
@@ -213,9 +214,25 @@ const resetSearch = () => {
 //#endregion
 
 //#region 行操作
+const currentUpdateId = ref<undefined | number>(undefined)
+
+/* 切换使用状态开关 */
+const handleSwitchChange = (row: PlatformTokenData) => {
+  updatePlatformTokenDataApi(row).then(() => {
+    ElMessage.success("修改成功")
+    getPlatformTokenData()
+  })
+}
+
 /** 修改数据 */
 function handleUpdate(row: PlatformTokenData): void {
-  console.log(row)
+  currentUpdateId.value = row.id
+  formData.id = row.id
+  formData.env_var_name = row.env_var_name
+  formData.value = row.value
+  formData.platform = row.platform
+  formData.description = row.description
+  dialogVisible.value = true
 }
 
 /** 删除数据 */

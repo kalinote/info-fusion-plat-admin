@@ -1,4 +1,6 @@
 export interface PlatformTokenData {
+  /** id */
+  id: number
   /** 环境变量名 */
   env_var_name: string
   /** 环境变量值 */

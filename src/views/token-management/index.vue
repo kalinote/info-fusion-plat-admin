@@ -105,12 +105,15 @@
 <script lang="ts" setup>
 import dayjs from "dayjs"
 import { Search, Refresh, Download, RefreshRight, CirclePlus, Delete, Check } from "@element-plus/icons-vue"
-import { type FormInstance, type FormRules, ElMessage } from "element-plus"
+import { type FormInstance, type FormRules, ElMessage, ElMessageBox } from "element-plus"
 import { reactive, ref, onMounted } from "vue"
-import { createPlatformTokenDataApi } from "@/api/token-management"
 import { type PlatformTokenData } from "@/api/token-management/types/token-management"
-import { getPlatformTokenDataApi } from "@/api/token-management"
-import { updatePlatformTokenDataApi } from "@/api/token-management"
+import {
+  createPlatformTokenDataApi,
+  getPlatformTokenDataApi,
+  updatePlatformTokenDataApi,
+  deletePlatformTokenDataApi
+} from "@/api/token-management"
 
 const loading = ref<boolean>(false)
 const formatTime = (timestamp: number) => {
@@ -236,8 +239,17 @@ function handleUpdate(row: PlatformTokenData): void {
 }
 
 /** 删除数据 */
-function handleDelete(row: PlatformTokenData): void {
-  console.log(row)
+const handleDelete = (row: PlatformTokenData) => {
+  ElMessageBox.confirm(`正在环境变量：${row.env_var_name}，确认删除？`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  }).then(() => {
+    deletePlatformTokenDataApi(row.id.toString()).then(() => {
+      ElMessage.success("删除成功")
+      getPlatformTokenData()
+    })
+  })
 }
 //#endregion
 

@@ -27,3 +27,11 @@ export function updatePlatformTokenDataApi(data: PlatformToken.PlatformTokenData
     data
   })
 }
+
+/** 删除 */
+export function deletePlatformTokenDataApi(id: string) {
+  return request({
+    url: `token_management/${id}`,
+    method: "delete"
+  })
+}

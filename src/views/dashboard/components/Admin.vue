@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-container">
     <div class="top-bar">
       <el-row :gutter="12">
         <el-col v-for="(info, index) in InfoList" :key="index" :span="8">
@@ -44,7 +44,7 @@
         />
       </el-card>
     </div>
-    <div style="margin: 40px">
+    <div style="margin-top: 20px">
       <h3 style="margin-left: 20px">信息收集节点</h3>
       <el-row :gutter="80" style="margin-bottom: 20px" v-for="(col, index) in nodeList" :key="index">
         <el-col :span="6" v-for="(node, index) in col" :key="index">
@@ -142,10 +142,6 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.top-bar {
-  padding: 20px;
-}
-
 .info-card {
   height: 100px; /* 调整合适的高度 */
   border-radius: 4px; /* 圆角设置 */
@@ -175,7 +171,7 @@ onMounted(async () => {
 }
 
 .new_info {
-  padding: 20px;
+  padding-top: 20px;
 }
 
 .new_info_title {

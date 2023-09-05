@@ -198,6 +198,40 @@ export const asyncRoutes: RouteRecordRaw[] = [
     ]
   },
   {
+    path: "/payment",
+    component: Layouts,
+    redirect: "/payment/index",
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/token-management/index.vue"),
+        name: "payment",
+        meta: {
+          title: "资费管理",
+          svgIcon: "payment",
+          roles: ["admin"] // 可以在根路由中设置角色
+        }
+      }
+    ]
+  },
+  {
+    path: "/agent_workflow",
+    component: Layouts,
+    redirect: "/agent_workflow/index",
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/agent-workflow/index.vue"),
+        name: "agent_workflow",
+        meta: {
+          title: "Agent工作流",
+          svgIcon: "workflow",
+          roles: ["admin"] // 可以在根路由中设置角色
+        }
+      }
+    ]
+  },
+  {
     path: "/docker",
     component: Layouts,
     name: "docker",
@@ -241,6 +275,15 @@ export const asyncRoutes: RouteRecordRaw[] = [
         meta: {
           title: "Redpanda Console",
           svgIcon: "kafka"
+        }
+      },
+      {
+        path: "http://192.168.238.128:8088/",
+        component: () => {},
+        name: "jupyter",
+        meta: {
+          title: "Jupyter Lab",
+          svgIcon: "jupyter"
         }
       }
     ]

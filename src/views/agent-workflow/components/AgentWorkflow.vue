@@ -35,7 +35,8 @@ onMounted(() => {
         symbolSize: 50,
         roam: true,
         label: {
-          show: true
+          show: true,
+          position: "bottom"
         },
         edgeSymbol: ["circle", "arrow"],
         edgeSymbolSize: [4, 10],
@@ -45,17 +46,17 @@ onMounted(() => {
         data: [
           {
             name: "Global Main Agent",
-            x: 300,
-            y: 300,
-            value: "Waiting for work",
+            x: 0,
+            y: 0,
+            value: "Ready for work",
             itemStyle: {
               color: "#7CFC00"
             }
           },
           {
             name: "Worker Agent A",
-            x: 800,
-            y: 300,
+            x: 200,
+            y: 0,
             value: "Thinking",
             itemStyle: {
               color: "#FFD700"
@@ -63,20 +64,29 @@ onMounted(() => {
           },
           {
             name: "Worker Agent B",
-            x: 550,
-            y: 400,
+            x: 100,
+            y: 50,
             value: "Waiting for response",
             itemStyle: {
               color: "#FF4500"
             }
           },
           {
-            name: "Worker subAgent",
-            x: 800,
-            y: 400,
+            name: "Worker subAgent A",
+            x: 200,
+            y: 50,
             value: "Thinking",
             itemStyle: {
               color: "#FFD700"
+            }
+          },
+          {
+            name: "Worker subAgent B",
+            x: 200,
+            y: 100,
+            value: "Ready for work",
+            itemStyle: {
+              color: "#7CFC00"
             }
           }
         ],
@@ -87,9 +97,6 @@ onMounted(() => {
             label: {
               show: true,
               formatter: "Managing"
-            },
-            lineStyle: {
-              curveness: 0.2
             }
           },
           {
@@ -98,19 +105,21 @@ onMounted(() => {
             label: {
               show: true,
               formatter: "Managing"
-            },
-            lineStyle: {
-              curveness: 0.2
             }
           },
           {
             source: "Worker Agent B",
-            target: "Worker subAgent",
+            target: "Worker subAgent A",
             label: {
               show: true
-            },
-            lineStyle: {
-              curveness: 0.2
+            }
+          },
+          {
+            source: "Worker Agent B",
+            target: "Worker subAgent B",
+            label: {
+              show: true,
+              formatter: "Work completed"
             }
           }
         ],

@@ -1,18 +1,14 @@
 <template>
   <div class="app-container">
     <div class="top-bar">
-      <el-row :gutter="12">
-        <el-col v-for="(info, index) in InfoList" :key="index" :span="8">
-          <el-card class="info-card element-border" shadow="hover">
-            <el-tooltip class="box-item" effect="dark" :content="info.tips" placement="bottom">
-              <div class="content">
-                <div class="title">{{ info.title }}</div>
-                <div class="value">{{ info.value }}</div>
-              </div>
-            </el-tooltip>
-          </el-card>
-        </el-col>
-      </el-row>
+      <el-card class="info-card">
+        <el-row>
+          <el-col class="content" :span="8" v-for="(info, index) in InfoList" :key="index">
+            <div class="title">{{ info.title }}</div>
+            <div class="value">{{ info.value }}</div>
+          </el-col>
+        </el-row>
+      </el-card>
     </div>
     <div class="new_info">
       <el-card class="new_info_card">
@@ -145,12 +141,7 @@ onMounted(async () => {
 .info-card {
   height: 100px; /* 调整合适的高度 */
   border-radius: 4px; /* 圆角设置 */
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  cursor: pointer;
   transition: box-shadow 0.3s ease; /* 添加过渡效果 */
 }
 

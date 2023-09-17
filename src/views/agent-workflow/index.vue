@@ -1,19 +1,16 @@
 <template>
   <div class="app-container">
     <div class="top-bar">
-      <el-row :gutter="12">
-        <el-col v-for="(info, index) in InfoList" :key="index" :span="8">
-          <el-card class="info-card element-border" shadow="hover">
-            <el-tooltip class="box-item" effect="dark" :content="info.tips" placement="bottom">
-              <div class="content">
-                <div class="title">{{ info.title }}</div>
-                <div class="value">{{ info.value }}</div>
-              </div>
-            </el-tooltip>
-          </el-card>
-        </el-col>
-      </el-row>
+      <el-card class="info-card">
+        <el-row>
+          <el-col class="content" :span="6" v-for="(info, index) in InfoList" :key="index">
+            <div class="title">{{ info.title }}</div>
+            <div class="value">{{ info.value }}</div>
+          </el-col>
+        </el-row>
+      </el-card>
     </div>
+
     <el-row class="workflow-box">
       <el-col :span="18">
         <div class="agent-branch-box">
@@ -26,36 +23,16 @@
             <el-header class="agent-history-header">Agent 历史记录</el-header>
             <el-divider />
             <el-main>
-              <!-- 这里的无限滚动不知道有没有使用正确 -->
               <el-timeline v-infinite-scroll="loadHistory">
-                <el-timeline-item timestamp="2023/9/7 20:21:21" placement="top">
+                <el-timeline-item
+                  v-for="(item, index) in timelineItems"
+                  :key="index"
+                  :timestamp="item.timestamp"
+                  placement="top"
+                >
                   <el-card>
-                    <h4>Global Main Agent 创建完成</h4>
-                    <p>由 生命周期管理器 操作</p>
-                  </el-card>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2023/9/7 22:13:15" placement="top">
-                  <el-card>
-                    <h4>Worker Agent A 创建完成</h4>
-                    <p>由 数据收集调度 操作</p>
-                  </el-card>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2023/9/7 22:13:18" placement="top">
-                  <el-card>
-                    <h4>Worker Agent B 创建完成</h4>
-                    <p>由 信息分析 操作</p>
-                  </el-card>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2023/9/7 23:08:28" placement="top">
-                  <el-card>
-                    <h4>Worker Agent A 开始思考</h4>
-                    <p>由 Worker Agent A 操作</p>
-                  </el-card>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2023/9/7 23:08:28" placement="top">
-                  <el-card>
-                    <h4>Worker subAgent A 创建完成</h4>
-                    <p>由 Worker Agent B 操作</p>
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.description }}</p>
                   </el-card>
                 </el-timeline-item>
               </el-timeline>
@@ -72,27 +49,61 @@ import { ref, onMounted } from "vue"
 import AgentWorkflow from "./components/AgentWorkflow.vue"
 
 const InfoList = ref([] as { title: string; value: string | number; tips: string }[])
+const timelineItems = ref([] as { timestamp: string; title: string; description: string }[])
 
 const loadHistory = () => {
-  console.log("test")
+  // console.log("test")
 }
 
 onMounted(async () => {
   InfoList.value = [
     {
-      title: "使用Token总量",
+      title: "Token使用总量",
       value: "15,468",
       tips: ""
     },
     {
-      title: "正在运行的Agent数量",
-      value: 3,
+      title: "当前存在的Agent",
+      value: 5,
       tips: ""
     },
     {
-      title: "Agent总调用次数",
-      value: 4,
+      title: "Agent创建总量",
+      value: 5,
       tips: ""
+    },
+    {
+      title: "当前代理IP地址",
+      value: "139.59.162.0",
+      tips: ""
+    }
+  ]
+
+  timelineItems.value = [
+    {
+      timestamp: "2023/9/7 20:21:21",
+      title: "Global Main Agent 创建完成",
+      description: "由 生命周期管理器 操作"
+    },
+    {
+      timestamp: "2023/9/7 22:13:15",
+      title: "Worker Agent A 创建完成",
+      description: "由 数据收集调度 操作"
+    },
+    {
+      timestamp: "2023/9/7 22:13:18",
+      title: "Worker Agent B 创建完成",
+      description: "由 信息分析 操作"
+    },
+    {
+      timestamp: "2023/9/7 23:08:28",
+      title: "Worker Agent A 开始思考",
+      description: "由 Worker Agent A 操作"
+    },
+    {
+      timestamp: "2023/9/7 23:08:28",
+      title: "Worker subAgent A 创建完成",
+      description: "由 Worker Agent B 操作"
     }
   ]
 })
@@ -103,12 +114,7 @@ onMounted(async () => {
 .info-card {
   height: 100px; /* 调整合适的高度 */
   border-radius: 4px; /* 圆角设置 */
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  cursor: pointer;
   transition: box-shadow 0.3s ease; /* 添加过渡效果 */
 }
 

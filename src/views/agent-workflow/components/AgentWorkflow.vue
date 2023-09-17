@@ -23,7 +23,7 @@ onMounted(() => {
 
   echart.setOption({
     title: {
-      text: "Agent workflow"
+      text: "Agent 工作流"
     },
     tooltip: {},
     animationDurationUpdate: 1500,

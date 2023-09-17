@@ -278,7 +278,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         }
       },
       {
-        path: "http://192.168.238.128:8088/",
+        path: "http://192.168.238.128:18888/",
         component: () => {},
         name: "jupyter",
         meta: {

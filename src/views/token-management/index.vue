@@ -3,7 +3,7 @@
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true" :model="searchData">
         <el-form-item prop="environment_variable_name" label="环境变量名">
-          <el-input v-model="searchData.env_var_name" placeholder="请输入" />
+          <el-input v-model="searchData.token_name" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="platform_name" label="平台名称">
           <el-input v-model="searchData.platform" placeholder="请输入" />
@@ -32,8 +32,8 @@
       <div class="table-wrapper">
         <el-table :data="tableData">
           <el-table-column type="selection" width="50" align="center" />
-          <el-table-column prop="env_var_name" label="环境变量名" align="center" />
-          <el-table-column prop="value" label="值" align="center" />
+          <el-table-column prop="token_name" label="环境变量名" align="center" />
+          <el-table-column prop="token_value" label="值" align="center" />
           <el-table-column prop="platform" label="平台" align="center" />
           <el-table-column prop="description" label="描述" align="center" />
           <el-table-column prop="is_using" label="使用状态" align="center">
@@ -81,11 +81,11 @@
       width="30%"
     >
       <el-form ref="formRef" :model="formData" :rules="formRules" label-width="100px" label-position="left">
-        <el-form-item prop="env_var_name" label="环境变量名">
-          <el-input v-model="formData.env_var_name" placeholder="请输入" :disabled="currentUpdateId !== undefined" />
+        <el-form-item prop="token_name" label="环境变量名">
+          <el-input v-model="formData.token_name" placeholder="请输入" :disabled="currentUpdateId !== undefined" />
         </el-form-item>
         <el-form-item prop="value" label="值">
-          <el-input v-model="formData.value" placeholder="请输入" />
+          <el-input v-model="formData.token_value" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="platform" label="平台">
           <el-input v-model="formData.platform" placeholder="请输入" />
@@ -125,8 +125,8 @@ const dialogVisible = ref<boolean>(false)
 const formRef = ref<FormInstance | null>(null)
 const formData = reactive({
   id: -1,
-  env_var_name: "",
-  value: "",
+  token_name: "",
+  token_value: "",
   platform: "",
   description: "",
   is_using: false,
@@ -136,7 +136,7 @@ const formData = reactive({
 })
 
 const formRules: FormRules = reactive({
-  env_var_name: [{ required: true, trigger: "blur", message: "请输入环境变量名" }],
+  token_name: [{ required: true, trigger: "blur", message: "请输入环境变量名" }],
   value: [{ required: true, trigger: "blur", message: "请输入值" }],
   platform: [{ required: true, trigger: "blur", message: "请输入平台" }]
 })
@@ -174,8 +174,8 @@ const resetForm = () => {
   setTimeout(() => {
     currentUpdateId.value = undefined
     formData.id = -1
-    formData.env_var_name = ""
-    formData.value = ""
+    formData.token_name = ""
+    formData.token_value = ""
     formData.platform = ""
     formData.description = ""
   }, 200) /** 延迟0.2秒执行，免得窗口还没消失，设置了currentUpdateId.value = undefined导致标题和内容发生变化 */
@@ -186,14 +186,14 @@ const resetForm = () => {
 const tableData = ref<PlatformTokenData[]>([])
 const searchFormRef = ref<FormInstance | null>(null)
 const searchData = reactive({
-  env_var_name: "",
+  token_name: "",
   platform: ""
 })
 
 const getPlatformTokenData = () => {
   loading.value = true
   getPlatformTokenDataApi({
-    env_var_name: searchData.env_var_name || undefined,
+    token_name: searchData.token_name || undefined,
     platform: searchData.platform || undefined
   })
     .then((res) => {
@@ -231,8 +231,8 @@ const handleSwitchChange = (row: PlatformTokenData) => {
 function handleUpdate(row: PlatformTokenData): void {
   currentUpdateId.value = row.id
   formData.id = row.id
-  formData.env_var_name = row.env_var_name
-  formData.value = row.value
+  formData.token_name = row.token_name
+  formData.token_value = row.token_value
   formData.platform = row.platform
   formData.description = row.description
   dialogVisible.value = true
@@ -240,7 +240,7 @@ function handleUpdate(row: PlatformTokenData): void {
 
 /** 删除数据 */
 const handleDelete = (row: PlatformTokenData) => {
-  ElMessageBox.confirm(`正在环境变量：${row.env_var_name}，确认删除？`, "提示", {
+  ElMessageBox.confirm(`正在环境变量：${row.token_name}，确认删除？`, "提示", {
     confirmButtonText: "确定",
     cancelButtonText: "取消",
     type: "warning"

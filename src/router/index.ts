@@ -251,7 +251,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: "http://192.168.238.128:8080/",
+        path: "http://192.168.31.50:8080/",
         component: () => {},
         name: "crawlab",
         meta: {
@@ -260,7 +260,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         }
       },
       {
-        path: "http://192.168.238.128:5601/app/dev_tools/",
+        path: "http://192.168.31.50:5601/app/dev_tools/",
         component: () => {},
         name: "kibana",
         meta: {
@@ -269,7 +269,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         }
       },
       {
-        path: "http://192.168.238.128:8088/",
+        path: "http://192.168.31.50:8088/",
         component: () => {},
         name: "redpanda_console",
         meta: {
@@ -278,7 +278,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         }
       },
       {
-        path: "http://192.168.238.128:18888/",
+        path: "http://192.168.31.50:18888/",
         component: () => {},
         name: "jupyter",
         meta: {

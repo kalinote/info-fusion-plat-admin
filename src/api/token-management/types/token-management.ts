@@ -2,9 +2,9 @@ export interface PlatformTokenData {
   /** id */
   id: number
   /** 环境变量名 */
-  env_var_name: string
+  token_name: string
   /** 环境变量值 */
-  value: string
+  token_value: string
   /** 所属平台 */
   platform: string
   /** 描述 */
@@ -21,7 +21,7 @@ export interface PlatformTokenData {
 
 export interface GetPlatformTokenRequestData {
   /** 环境变量名 */
-  env_var_name?: string
+  token_name?: string
   /** 所属平台 */
   platform?: string
 }

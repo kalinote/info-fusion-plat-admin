@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-card shadow="never" class="search-wrapper">
       <el-form ref="searchFormRef" :inline="true">
-        <el-form-item prop="rss_name" label="RSS采集程序名称">
+        <el-form-item prop="platform_name" label="平台采集程序名称">
           <el-input placeholder="请输入" />
         </el-form-item>
         <el-form-item>
@@ -14,7 +14,7 @@
     <el-card shadow="never">
       <div class="toolbar-wrapper">
         <div>
-          <el-button type="primary" :icon="CirclePlus" disabled>新建RSS采集程序</el-button>
+          <el-button type="primary" :icon="CirclePlus" disabled>新建平台采集程序</el-button>
           <el-button type="danger" :icon="Delete" disabled>批量删除</el-button>
         </div>
         <div>

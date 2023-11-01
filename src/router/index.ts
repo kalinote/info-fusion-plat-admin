@@ -146,7 +146,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     redirect: "/data_source/spiders_source",
     name: "DataSource",
     meta: {
-      title: "数据源",
+      title: "采集程序管理",
       svgIcon: "data-source",
       alwaysShow: true // 将始终显示根菜单
     },
@@ -156,7 +156,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/data-source/spiders/index.vue"),
         name: "spiders_source",
         meta: {
-          title: "爬虫",
+          title: "所有采集程序",
           roles: ["admin", "editor"] // 可以在根路由中设置角色
         }
       },
@@ -175,6 +175,15 @@ export const asyncRoutes: RouteRecordRaw[] = [
         name: "rss_source",
         meta: {
           title: "RSS",
+          roles: ["admin", "editor"] // 可以在根路由中设置角色
+        }
+      },
+      {
+        path: "platform",
+        component: () => import("@/views/data-source/platform/index.vue"),
+        name: "platform_source",
+        meta: {
+          title: "平台",
           roles: ["admin", "editor"] // 可以在根路由中设置角色
         }
       }

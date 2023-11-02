@@ -30,7 +30,7 @@
         <el-table>
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="name" label="名称" align="center" />
-          <el-table-column prop="project" label="项目" align="center" />
+          <el-table-column prop="project_name" label="项目" align="center" />
           <el-table-column prop="status" label="最后运行状态" align="center" />
           <el-table-column prop="statistical" label="统计数据" align="center" />
           <el-table-column prop="description" label="描述" align="center" />

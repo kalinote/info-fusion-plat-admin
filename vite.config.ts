@@ -38,7 +38,7 @@ export default (configEnv: ConfigEnv): UserConfigExport => {
       proxy: {
         "/api/v1": {
           // target: "https://mock.mengxuegu.com/mock/63218b5fb4c53348ed2bc212/api/v1",
-          target: "http://192.168.31.50:8000/api/v1",
+          target: "http://192.168.31.50:8001/api/v1",
           ws: true,
           /** 是否允许跨域 */
           changeOrigin: true,

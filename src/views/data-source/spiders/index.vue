@@ -47,21 +47,31 @@
                 <el-tag effect="plain">{{ scope.row.statistical.tasks }}</el-tag>
               </el-tooltip>
               <el-tooltip class="box-item" effect="dark" content="所有任务的结果总数" placement="bottom">
-                <el-tag effect="plain">{{ scope.row.statistical.results }}</el-tag>
+                <el-tag style="margin-left: 5px" effect="plain" type="success">
+                  {{ scope.row.statistical.results }}
+                </el-tag>
               </el-tooltip>
               <el-tooltip class="box-item" effect="dark" content="平均任务运行时长(s)" placement="bottom">
-                <el-tag effect="plain">{{ scope.row.statistical.average_total_duration }}</el-tag>
+                <el-tag style="margin-left: 5px" effect="plain" type="warning">
+                  {{ scope.row.statistical.average_total_duration }}
+                </el-tag>
               </el-tooltip>
               <el-tooltip class="box-item" effect="dark" content="所有任务运行总时长(s)" placement="bottom">
-                <el-tag effect="plain">{{ scope.row.statistical.total_duration }}</el-tag>
+                <el-tag style="margin-left: 5px" effect="plain" type="danger">
+                  {{ scope.row.statistical.total_duration }}
+                </el-tag>
               </el-tooltip>
             </template>
           </el-table-column>
-
           <el-table-column prop="description" label="描述" align="center" />
-
           <el-table-column prop="target_site" label="目标站点" align="center" />
-          <el-table-column prop="tags" label="标签" align="center" />
+          <el-table-column prop="tags" label="标签" align="center">
+            <template #default="scope">
+              <el-tag style="margin-left: 5px" v-for="(tag, key) in scope.row.tags" :key="key" effect="plain">
+                {{ tag }}
+              </el-tag>
+            </template>
+          </el-table-column>
           <el-table-column prop="operate" label="操作" align="center" />
         </el-table>
       </div>

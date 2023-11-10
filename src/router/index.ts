@@ -165,7 +165,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/data-source/wiki/index.vue"),
         name: "wiki_source",
         meta: {
-          title: "Wiki",
+          title: "Wiki站点信息",
           roles: ["admin", "editor"] // 可以在根路由中设置角色
         }
       },
@@ -174,7 +174,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/data-source/rss/index.vue"),
         name: "rss_source",
         meta: {
-          title: "RSS",
+          title: "RSS采集模板",
           roles: ["admin", "editor"] // 可以在根路由中设置角色
         }
       },
@@ -183,8 +183,25 @@ export const asyncRoutes: RouteRecordRaw[] = [
         component: () => import("@/views/data-source/platform/index.vue"),
         name: "platform_source",
         meta: {
-          title: "平台",
+          title: "平台采集程序",
           roles: ["admin", "editor"] // 可以在根路由中设置角色
+        }
+      }
+    ]
+  },
+  {
+    path: "/web_monitoring",
+    component: Layouts,
+    redirect: "/web_monitoring/index",
+    children: [
+      {
+        path: "index",
+        component: () => import("@/views/web-monitoring/index.vue"),
+        name: "web_monitoring",
+        meta: {
+          title: "页面监测",
+          svgIcon: "web-monitoring",
+          roles: ["admin"] // 可以在根路由中设置角色
         }
       }
     ]

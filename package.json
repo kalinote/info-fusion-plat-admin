@@ -26,6 +26,8 @@
   "dependencies": {
     "@element-plus/icons-vue": "2.1.0",
     "axios": "1.4.0",
+    "cron-parser": "^4.9.0",
+    "cronstrue": "^2.41.0",
     "dayjs": "1.11.9",
     "echarts": "^5.4.3",
     "element-plus": "2.3.12",

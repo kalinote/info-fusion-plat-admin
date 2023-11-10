@@ -39,3 +39,33 @@ export type GetAllSpidersData = ApiResponseData<{
   list: SpiderData[]
   total: number
 }>
+
+export interface RssTemplateData {
+  id: number
+  additional_params: { [key: string]: string }
+  tags: string[]
+  name: string
+  platform_name: string
+  protocol: string
+  host: string
+  route: string
+  category: string
+  description: string
+  running_cycle: string
+  create_time: string
+  update_time: string
+  deploy_status: string
+  is_deleted: boolean
+}
+
+export interface GetRssTemplateParam {
+  /** 页码 */
+  page: number
+  /** 大小 */
+  size: number
+}
+
+export type GetRssTemplateData = ApiResponseData<{
+  list: RssTemplateData[]
+  total: number
+}>

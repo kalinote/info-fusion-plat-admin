@@ -42,7 +42,7 @@
     </div>
     <div style="margin-top: 20px">
       <h3 style="margin-left: 20px">信息收集节点</h3>
-      <el-row :gutter="80" style="margin-bottom: 20px" v-for="(col, index) in nodeList" :key="index">
+      <el-row :gutter="20" style="margin-bottom: 20px" v-for="(col, index) in nodeList" :key="index">
         <el-col :span="6" v-for="(node, index) in col" :key="index">
           <el-card class="node-info-card" :body-style="node['color']">
             <div class="node-info-content">
@@ -55,8 +55,8 @@
                   <el-main>{{ node["value"].toLocaleString() }}</el-main>
                 </el-container>
               </el-container>
-            </div></el-card
-          >
+            </div>
+          </el-card>
         </el-col>
       </el-row>
     </div>

@@ -83,7 +83,7 @@
 import { Search, Refresh, Download, RefreshRight, CirclePlus, Delete } from "@element-plus/icons-vue"
 import { ref, onMounted } from "vue"
 import { type SpiderData } from "@/api/datasource-management/types/datasource-management"
-import { getAllSpidersApi } from "@/api/datasource-management"
+import { getAllSpidersDataApi } from "@/api/datasource-management"
 
 const loading = ref<boolean>(false)
 
@@ -93,7 +93,7 @@ const tableData = ref<SpiderData[]>([])
 const getAllSpiders = () => {
   loading.value = true
   //TODO 实现分页
-  getAllSpidersApi({
+  getAllSpidersDataApi({
     page: 0,
     size: 0
   })

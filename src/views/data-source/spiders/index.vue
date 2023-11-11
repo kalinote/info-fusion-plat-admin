@@ -30,15 +30,17 @@
         <el-table :data="tableData">
           <el-table-column type="selection" width="50" align="center" />
           <el-table-column prop="name" label="名称" align="center" />
-          <el-table-column prop="project_name" label="项目" align="center" />
-          <el-table-column prop="last_status" label="最后运行状态" align="center">
+          <el-table-column prop="project_name" label="项目" align="center" width="150" />
+          <el-table-column prop="last_status" label="最后运行状态" align="center" width="120">
             <template #default="scope">
               <el-tag v-if="scope.row.last_status === 'finished'" type="success" effect="plain">已完成</el-tag>
               <el-tag v-else-if="scope.row.last_status === 'error'" type="danger" effect="plain">错误</el-tag>
               <el-tag v-else-if="scope.row.last_status === 'running'" type="warning" effect="plain">运行中</el-tag>
               <el-tag v-else-if="scope.row.last_status === 'pending'" effect="plain">部署中</el-tag>
               <el-tag v-else-if="scope.row.last_status === 'cancelled'" type="info" effect="plain">已取消</el-tag>
-              <el-tag v-else-if="scope.row.last_status === 'none'" type="info" effect="plain">已删除</el-tag>
+              <el-tag v-else-if="scope.row.last_status === 'abnormal'" type="info" effect="plain">异常</el-tag>
+              <el-tag v-else-if="scope.row.last_status === 'none'" type="info" effect="plain">已删除或未运行</el-tag>
+              <el-tag v-else type="info" effect="plain">未定义状态</el-tag>
             </template>
           </el-table-column>
           <el-table-column prop="statistical" label="统计数据" align="center">

@@ -33,6 +33,7 @@ export interface getNodeInfoData {
 
 export type getDailyNewInfoResponseData = ApiResponseData<{
   list: getDailyNewInfoData[]
+  total: number
 }>
 
 export type getNodeInfoResponseData = ApiResponseData<{

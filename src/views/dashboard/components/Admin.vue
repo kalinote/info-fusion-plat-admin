@@ -75,7 +75,12 @@ const nodeList = ref([] as DashboardType.getNodeInfoData[][])
 //#endregion
 
 //#region 24小时高权重信息分页
-const NewInfo = ref({} as DashboardType.getDailyNewInfoData)
+const NewInfo = ref({
+  content: "暂无消息",
+  tags: [],
+  source: [],
+  meta: []
+} as DashboardType.getDailyNewInfoData)
 const NewInfoResponse = ref({} as DashboardType.getDailyNewInfoResponseData)
 const NewInfoData = ref([] as DashboardType.getDailyNewInfoData[])
 
@@ -98,6 +103,7 @@ onMounted(async () => {
   const CollectedInfoResponse: DashboardType.getCollectedInfoSummaryResponseData =
     await DashboardAPI.getCollectedInfoSummaryDataApi()
   const CollectedInfodata = CollectedInfoResponse.data
+  const NodeInfoResponse: DashboardType.getNodeInfoResponseData = await DashboardAPI.getNodeInfoApi()
   InfoList.value = [
     {
       title: "总信息量",
@@ -122,16 +128,17 @@ onMounted(async () => {
   NewInfoData.value = NewInfoResponse.value.data.list
   DailyNewInfoPagination.total = NewInfoData.value.length
 
-  // 获取完显示
-  NewInfo.value.tags = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].tags
-  NewInfo.value.source = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].source
-  NewInfo.value.meta = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].meta
+  if (DailyNewInfoPagination.total > 0) {
+    // 获取完显示
+    NewInfo.value.tags = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].tags
+    NewInfo.value.source = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].source
+    NewInfo.value.meta = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].meta
 
-  NewInfo.value.content = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].content
+    NewInfo.value.content = NewInfoResponse.value.data.list[DailyNewInfoPagination.CurrentPage - 1].content
+  }
   //#endregion
 
   //#region 查询采集节点信息
-  const NodeInfoResponse: DashboardType.getNodeInfoResponseData = await DashboardAPI.getNodeInfoApi()
   nodeList.value = NodeInfoResponse.data.list
   //#endregion
 })

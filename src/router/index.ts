@@ -277,7 +277,7 @@ export const asyncRoutes: RouteRecordRaw[] = [
     },
     children: [
       {
-        path: "http://192.168.31.50:8080/",
+        path: "http://192.168.31.50:8082/",
         component: () => {},
         name: "crawlab",
         meta: {

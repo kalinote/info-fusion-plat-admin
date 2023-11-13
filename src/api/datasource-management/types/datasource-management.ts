@@ -84,7 +84,7 @@ export type GetRssTemplateData = ApiResponseData<{
   total: number
 }>
 
-export type OperateString = "develop" | "enable" | "disable"
+export type OperateString = "deploy" | "enable" | "disable"
 export interface developRssTemplateData {
   /** 需要部署的RSS采集模板ID */
   id: number

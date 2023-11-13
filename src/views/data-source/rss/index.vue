@@ -58,7 +58,7 @@
               </el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="deploy_status" label="部署状态" align="center" width="100">
+          <el-table-column prop="deploy_status" label="部署状态" align="center" width="120">
             <template #default="scope">
               <el-tag v-if="scope.row.deploy_status === '未部署'" type="danger" effect="plain">未部署</el-tag>
               <el-tag v-else-if="scope.row.deploy_status === '已部署,但未启用'" type="warning" effect="plain">
@@ -67,13 +67,43 @@
               <el-tag v-else-if="scope.row.deploy_status === '已启用'" type="success" effect="plain">已启用</el-tag>
             </template>
           </el-table-column>
-          <el-table-column prop="operate" label="操作" align="center" />
+          <el-table-column prop="operate" label="操作" align="center" width="300" fixed="right">
+            <template #default="scope">
+              <el-button
+                v-if="scope.row.deploy_status === '未部署'"
+                type="warning"
+                @click="deployOperate(scope.row.id, 'deploy')"
+                size="small"
+              >
+                部署
+              </el-button>
+              <el-button
+                v-else-if="scope.row.deploy_status === '已启用'"
+                type="danger"
+                size="small"
+                @click="deployOperate(scope.row.id, 'disable')"
+              >
+                停用
+              </el-button>
+              <el-button
+                v-else-if="scope.row.deploy_status === '已部署,但未启用'"
+                type="success"
+                size="small"
+                @click="deployOperate(scope.row.id, 'enable')"
+              >
+                启用
+              </el-button>
+              <el-button type="primary" size="small">运行</el-button>
+              <el-button type="primary" size="small">修改</el-button>
+              <el-button type="danger" size="small">删除</el-button>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
     </el-card>
     <el-dialog
       v-model="dialogVisible"
-      :title="currentUpdateId === undefined ? '新增环境变量' : '修改环境变量'"
+      :title="currentUpdateId === undefined ? '新增RSS采集模板' : '修改RSS采集模板'"
       @close="resetForm"
       width="30%"
     >
@@ -94,7 +124,7 @@
           <el-input v-model="formData.host" placeholder="请输入Host或域名" />
         </el-form-item>
         <el-form-item prop="route" label="路由地址(以/开头)">
-          <el-input v-model="formData.host" placeholder="请输入路由地址" />
+          <el-input v-model="formData.route" placeholder="请输入路由地址" />
         </el-form-item>
         <el-form-item prop="category" label="分类">
           <el-input v-model="formData.category" placeholder="请输入分类" />
@@ -115,6 +145,7 @@
             ref="InputRef"
             v-model="inputTagValue"
             class="ml-1 w-20"
+            style="margin-top: 10px"
             size="small"
             @keyup.enter="handleInputTagConfirm"
             @blur="handleInputTagConfirm"
@@ -152,7 +183,7 @@
       </el-form>
       <template #footer>
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button @click="console.log(formData)" type="primary">确认</el-button>
+        <el-button @click="handleCreate" type="primary">确认</el-button>
       </template>
     </el-dialog>
   </div>
@@ -161,9 +192,9 @@
 <script lang="ts" setup>
 import { reactive, ref, onMounted, nextTick, computed } from "vue"
 import { Search, Refresh, Download, RefreshRight, CirclePlus, Delete } from "@element-plus/icons-vue"
-import { type FormInstance, type FormRules, ElInput } from "element-plus"
-import { RssTemplateData } from "@/api/datasource-management/types/datasource-management"
-import { getRssTemplateDataApi } from "@/api/datasource-management"
+import { type FormInstance, type FormRules, ElInput, ElMessage } from "element-plus"
+import { RssTemplateData, OperateString } from "@/api/datasource-management/types/datasource-management"
+import { getRssTemplateDataApi, createRssTemplateDataApi, developRssTemplateApi } from "@/api/datasource-management"
 import { parseExpression } from "cron-parser"
 import cronstrue from "cronstrue/i18n"
 
@@ -236,14 +267,54 @@ const formData = reactive({
   running_cycle: ""
 })
 
-const formRules: FormRules = reactive({})
+const formRules: FormRules = reactive({
+  name: [
+    { required: true, message: "请输入名称", trigger: "blur" },
+    { min: 2, max: 256, message: "名称长度在 2 到 256 个字符", trigger: "blur" }
+  ],
+  platform_name: [
+    { required: true, message: "请输入平台名称", trigger: "blur" },
+    { min: 2, max: 256, message: "平台名称长度在 2 到 256 个字符", trigger: "blur" }
+  ],
+  protocol: [{ required: true, message: "请选择协议", trigger: "change" }],
+  host: [{ required: true, message: "请输入Host或域名", trigger: "blur" }],
+  route: [
+    { required: true, message: "请输入路由地址", trigger: "blur" },
+    { pattern: /^\/.*/, message: '路由地址必须以 "/" 开头', trigger: "blur" }
+  ],
+  category: [{ required: true, message: "请输入分类", trigger: "blur" }],
+  tags: [{ required: true, message: "请添加至少一个标签", trigger: "change" }],
+  description: [{ required: true, message: "请输入描述", trigger: "blur" }],
+  running_cycle: [{ required: true, message: "请输入Cron表达式", trigger: "blur" }]
+})
+
+const handleCreate = () => {
+  formRef.value?.validate((valid: boolean, fields) => {
+    if (valid) {
+      if (currentUpdateId.value === undefined) {
+        createRssTemplateDataApi(formData)
+          .then(() => {
+            ElMessage.success("新增成功")
+            getRssTemplates()
+          })
+          .finally(() => {
+            dialogVisible.value = false
+          })
+      } else {
+        // TODO 进行修改操作
+      }
+    } else {
+      console.error("表单校验不通过", fields)
+    }
+  })
+}
 
 const resetForm = () => {
   setTimeout(() => {
     formData.id = -1
     formData.name = ""
     formData.platform_name = ""
-    formData.protocol = ""
+    formData.protocol = "http"
     formData.host = ""
     formData.route = ""
     formData.category = ""
@@ -304,6 +375,20 @@ const editKeyValue = (row: { key: string; value: string }) => {
 onMounted(() => {
   getRssTemplates()
 })
+//#endregion
+
+//#region 部署工作
+function deployOperate(id: number, operate: OperateString): void {
+  developRssTemplateApi({
+    id: id,
+    operate: operate
+  }).then(() => {
+    ElMessage.success("操作成功")
+    setTimeout(() => {
+      getRssTemplates()
+    }, 500) // 延迟0.5秒刷新
+  })
+}
 //#endregion
 </script>
 

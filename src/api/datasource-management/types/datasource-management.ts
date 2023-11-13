@@ -58,6 +58,20 @@ export interface RssTemplateData {
   is_deleted: boolean
 }
 
+export interface createRssTemplateData {
+  id: number
+  additional_params: { [key: string]: string }
+  tags: string[]
+  name: string
+  platform_name: string
+  protocol: string
+  host: string
+  route: string
+  category: string
+  description: string
+  running_cycle: string
+}
+
 export interface GetRssTemplateParam {
   /** 页码 */
   page: number
@@ -69,3 +83,11 @@ export type GetRssTemplateData = ApiResponseData<{
   list: RssTemplateData[]
   total: number
 }>
+
+export type OperateString = "develop" | "enable" | "disable"
+export interface developRssTemplateData {
+  /** 需要部署的RSS采集模板ID */
+  id: number
+  /** 需要进行的部署操作 */
+  operate: OperateString
+}

@@ -258,7 +258,7 @@ const formData = reactive({
   name: "",
   platform_name: "",
   protocol: "http",
-  host: "",
+  host: "192.168.31.50:1200",
   route: "",
   category: "",
   tags: ["RSS"],
@@ -315,7 +315,7 @@ const resetForm = () => {
     formData.name = ""
     formData.platform_name = ""
     formData.protocol = "http"
-    formData.host = ""
+    formData.host = "192.168.31.50:1200"
     formData.route = ""
     formData.category = ""
     formData.tags = ["RSS"]

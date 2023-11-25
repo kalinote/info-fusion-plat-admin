@@ -84,7 +84,7 @@
         <el-form-item prop="token_name" label="环境变量名">
           <el-input v-model="formData.token_name" placeholder="请输入" :disabled="currentUpdateId !== undefined" />
         </el-form-item>
-        <el-form-item prop="value" label="值">
+        <el-form-item prop="token_value" label="值">
           <el-input v-model="formData.token_value" placeholder="请输入" />
         </el-form-item>
         <el-form-item prop="platform" label="平台">
@@ -137,7 +137,7 @@ const formData = reactive({
 
 const formRules: FormRules = reactive({
   token_name: [{ required: true, trigger: "blur", message: "请输入环境变量名" }],
-  value: [{ required: true, trigger: "blur", message: "请输入值" }],
+  token_value: [{ required: true, trigger: "blur", message: "请输入值" }],
   platform: [{ required: true, trigger: "blur", message: "请输入平台" }]
 })
 

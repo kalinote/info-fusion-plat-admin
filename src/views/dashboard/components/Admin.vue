@@ -13,7 +13,7 @@
     <div class="new_info">
       <el-card class="new_info_card">
         <el-tooltip class="box-item" effect="dark" content="权重值计算方法：" placement="top">
-          <div class="new_info_title">最新信息</div>
+          <div class="new_info_title">24小时内最新信息</div>
         </el-tooltip>
         <el-divider />
         <div class="new_info_text" v-html="NewInfo.content" />
